@@ -2,7 +2,11 @@ a = 2;
 b = 3;
 c = 7;
 
-if (a < b || c < b)
+if (a > b || b > c)
 {
-print("yes");
+    print("yes");
+}
+elseif(a > b)
+{
+    print("no");
 }

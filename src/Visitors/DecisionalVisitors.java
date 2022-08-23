@@ -42,28 +42,27 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
     @Override
     public Value visitLogicalExpression(gebLParser.LogicalExpressionContext ctx){
         boolean prev;
-
         if(ctx.comparisonExpression().size() == 1)
-            return this.visit(ctx.comparisonExpression(0));
+            return new ExprVisitors().visit(ctx.comparisonExpression(0));
         else
         {
-            prev = this.visit(ctx.comparisonExpression(0)).boolVal;
+            prev = new ExprVisitors().visit(ctx.comparisonExpression(0)).boolVal;
             for(int i = 1; i < ctx.comparisonExpression().size(); i++) {
                 switch (ctx.op.getType()) {
                     case (gebLParser.AND) -> {
-                        prev = prev && this.visit(ctx.comparisonExpression(i)).boolVal;
+                        prev = prev && new ExprVisitors().visit(ctx.comparisonExpression(i)).boolVal;
                         if(i == ctx.comparisonExpression().size() - 1)
                             return new Value(prev);
                     }
                     case (gebLParser.OR) -> {
-                        prev = prev || this.visit(ctx.comparisonExpression(i)).boolVal;
+                        prev = prev || new ExprVisitors().visit(ctx.comparisonExpression(i)).boolVal;
                         if(i == ctx.comparisonExpression().size() - 1)
                             return new Value(prev);
                     }default -> { Evaluator.ThrowError(2, ctx.start.getLine(), "", 0, 0); return new Value();}
                 }
             }
         }
-        return null;
+        return new Value(false);
     }
 
     /*    @Override
