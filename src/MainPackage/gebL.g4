@@ -20,7 +20,8 @@ varHandler
 
 decisionalStatements
     : IF ifCondition decisionalAndLoopBlock (ELSEIF ifCondition decisionalAndLoopBlock)* (ELSE decisionalAndLoopBlock)?   # IfStatement
-//    | SWITCH LPAR operation RPAR LCURL (CASE LPAR operation RPAR decisionalAndLoopBlock)+ RCURL                           # SwitchStatement
+//    | SWITCH LPAR operation RPAR LCURL (CASE LPAR operation RPAR decisionalAndLoopBlock)+ RCURL        # SwitchStatement
+//    | ifCondition ? statement SCOL : statement SCOL              # Ternary
     ;
 
 ifCondition
