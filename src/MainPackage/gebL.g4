@@ -19,13 +19,9 @@ varHandler
     ;
 
 decisionalStatements
-    : IF ifCondition decisionalAndLoopBlock (ELSEIF ifCondition decisionalAndLoopBlock)* (ELSE decisionalAndLoopBlock)?   # IfStatement
+    : IF logicalExpression decisionalAndLoopBlock (ELSEIF logicalExpression decisionalAndLoopBlock)* (ELSE decisionalAndLoopBlock)?   # IfStatement
 //    | SWITCH LPAR operation RPAR LCURL (CASE LPAR operation RPAR decisionalAndLoopBlock)+ RCURL        # SwitchStatement
 //    | ifCondition ? statement SCOL : statement SCOL              # Ternary
-    ;
-
-ifCondition
-    : LPAR logicalExpression RPAR
     ;
 
 decisionalAndLoopBlock
@@ -33,8 +29,8 @@ decisionalAndLoopBlock
     ;
 
 loopStatements
-    : WHILE LPAR logicalExpression RPAR decisionalAndLoopBlock           # WhileLoop
-    | DO decisionalAndLoopBlock WHILE LPAR logicalExpression RPAR        # DoWhileLoop
+    : WHILE logicalExpression decisionalAndLoopBlock           # WhileLoop
+    | DO decisionalAndLoopBlock WHILE logicalExpression        # DoWhileLoop
 //    | FOR LPAR varHandler SCOL comparisonExpression SCOL varHandler RPAR decisionalAndLoopBlock   # ForLoop
 //    | FOREACH LPAR types ID COL /*array or whatever*/ RPAR decisionalAndLoopBlock   # ForeachLoop
     ;
@@ -48,7 +44,7 @@ comparisonExpression
     ;
 
 logicalExpression
-    : comparisonExpression (op=(AND | OR) comparisonExpression)*
+    : LPAR comparisonExpression (op=(AND | OR) comparisonExpression)* RPAR
     ;
 
 

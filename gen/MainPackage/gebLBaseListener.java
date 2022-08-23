@@ -76,18 +76,6 @@ public class gebLBaseListener implements gebLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfCondition(gebLParser.IfConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIfCondition(gebLParser.IfConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDecisionalAndLoopBlock(gebLParser.DecisionalAndLoopBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}

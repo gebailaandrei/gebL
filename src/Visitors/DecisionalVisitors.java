@@ -9,8 +9,8 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
     public Value visitIfStatement(gebLParser.IfStatementContext ctx){
         boolean evalElse = true;
         // This checks the if and else if's.
-        for (int i = 0; i < ctx.ifCondition().size(); i++) {
-            if (this.visit(ctx.ifCondition(i)).boolVal) {
+        for (int i = 0; i < ctx.logicalExpression().size(); i++) {
+            if (this.visit(ctx.logicalExpression(i)).boolVal) {
                 evalElse = false;
                 Value val = this.visit(ctx.decisionalAndLoopBlock(i));
                 if (val.isReturn) { // If the statement is the result of a return statement and if is inside a fun, returns it otherwise it throws an error
@@ -33,10 +33,6 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
             }
         }
         return new Value();
-    }
-    @Override
-    public Value visitIfCondition(gebLParser.IfConditionContext ctx){
-        return this.visit(ctx.logicalExpression());
     }
 
     @Override

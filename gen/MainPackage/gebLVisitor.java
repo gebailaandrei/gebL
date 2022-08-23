@@ -44,12 +44,6 @@ public interface gebLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(gebLParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link gebLParser#ifCondition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIfCondition(gebLParser.IfConditionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link gebLParser#decisionalAndLoopBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

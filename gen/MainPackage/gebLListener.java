@@ -64,16 +64,6 @@ public interface gebLListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(gebLParser.IfStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gebLParser#ifCondition}.
-	 * @param ctx the parse tree
-	 */
-	void enterIfCondition(gebLParser.IfConditionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link gebLParser#ifCondition}.
-	 * @param ctx the parse tree
-	 */
-	void exitIfCondition(gebLParser.IfConditionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link gebLParser#decisionalAndLoopBlock}.
 	 * @param ctx the parse tree
 	 */
