@@ -5,6 +5,7 @@ import static Visitors.Evaluator.insideFuncCall;
 import static Visitors.Evaluator.ThrowError;
 
 public class DecisionalVisitors extends gebLBaseVisitor<Value>{
+
     @Override // This visits the if/elseif/else statements and checks their conditions
     public Value visitIfStatement(gebLParser.IfStatementContext ctx){
         boolean evalElse = true;
@@ -12,7 +13,7 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
         for (int i = 0; i < ctx.logicalExpression().size(); i++) {
             if (this.visit(ctx.logicalExpression(i)).boolVal) {
                 evalElse = false;
-                Value val = this.visit(ctx.decisionalAndLoopBlock(i));
+                Value val = this.visit(ctx.curlyBlock(i));
                 if (val.isReturn) { // If the statement is the result of a return statement and if is inside a fun, returns it otherwise it throws an error
                     if (insideFuncCall)
                         return val;
@@ -24,7 +25,7 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
         }
         // This checks else.
         if (ctx.ELSE() != null && evalElse){
-            Value val = this.visit(ctx.decisionalAndLoopBlock(ctx.decisionalAndLoopBlock().size() - 1));
+            Value val = this.visit(ctx.curlyBlock(ctx.curlyBlock().size() - 1));
             if (val.isReturn) { // If the statement is the result of a return statement and if is inside a fun, returns it otherwise it throws an error
                 if (insideFuncCall)
                     return val;
@@ -70,8 +71,9 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
             }
             return new Value();
         }*/
+
     @Override // This visits the statements inside the if/elseif/else and switch cases
-    public Value visitDecisionalAndLoopBlock(gebLParser.DecisionalAndLoopBlockContext ctx){
+    public Value visitCurlyBlock(gebLParser.CurlyBlockContext ctx){
         for(int i = 0; i < ctx.struct().size(); i++){
             Value val = new Evaluator().visit(ctx.struct(i));
             if(val.isReturn) // If the statement is the result of a return statement and if is inside a fun, returns it otherwise it throws an error
