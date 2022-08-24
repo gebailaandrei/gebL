@@ -111,7 +111,7 @@ list
 struct
 varHandler
 decisionalStatements
-decisionalAndLoopBlock
+curlyBlock
 loopStatements
 print
 comparisonExpression

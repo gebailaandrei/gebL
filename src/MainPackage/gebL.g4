@@ -19,18 +19,18 @@ varHandler
     ;
 
 decisionalStatements
-    : IF logicalExpression decisionalAndLoopBlock (ELSEIF logicalExpression decisionalAndLoopBlock)* (ELSE decisionalAndLoopBlock)?   # IfStatement
+    : IF logicalExpression curlyBlock (ELSEIF logicalExpression curlyBlock)* (ELSE curlyBlock)?   # IfStatement
 //    | SWITCH LPAR operation RPAR LCURL (CASE LPAR operation RPAR decisionalAndLoopBlock)+ RCURL        # SwitchStatement
 //    | ifCondition ? statement SCOL : statement SCOL              # Ternary
     ;
 
-decisionalAndLoopBlock
+curlyBlock
     : LCURL struct* RCURL
     ;
 
 loopStatements
-    : WHILE logicalExpression decisionalAndLoopBlock           # WhileLoop
-    | DO decisionalAndLoopBlock WHILE logicalExpression        # DoWhileLoop
+    : WHILE logicalExpression curlyBlock           # WhileLoop
+    | DO curlyBlock WHILE logicalExpression        # DoWhileLoop
 //    | FOR LPAR varHandler SCOL comparisonExpression SCOL varHandler RPAR decisionalAndLoopBlock   # ForLoop
 //    | FOREACH LPAR types ID COL /*array or whatever*/ RPAR decisionalAndLoopBlock   # ForeachLoop
     ;

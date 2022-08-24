@@ -44,11 +44,11 @@ public interface gebLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(gebLParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link gebLParser#decisionalAndLoopBlock}.
+	 * Visit a parse tree produced by {@link gebLParser#curlyBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDecisionalAndLoopBlock(gebLParser.DecisionalAndLoopBlockContext ctx);
+	T visitCurlyBlock(gebLParser.CurlyBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code WhileLoop}
 	 * labeled alternative in {@link gebLParser#loopStatements}.

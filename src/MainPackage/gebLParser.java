@@ -26,12 +26,11 @@ public class gebLParser extends Parser {
 		COMMENT=50, WS=51;
 	public static final int
 		RULE_list = 0, RULE_struct = 1, RULE_varHandler = 2, RULE_decisionalStatements = 3, 
-		RULE_decisionalAndLoopBlock = 4, RULE_loopStatements = 5, RULE_print = 6, 
-		RULE_comparisonExpression = 7, RULE_logicalExpression = 8, RULE_operation = 9, 
-		RULE_types = 10;
+		RULE_curlyBlock = 4, RULE_loopStatements = 5, RULE_print = 6, RULE_comparisonExpression = 7, 
+		RULE_logicalExpression = 8, RULE_operation = 9, RULE_types = 10;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"list", "struct", "varHandler", "decisionalStatements", "decisionalAndLoopBlock", 
+			"list", "struct", "varHandler", "decisionalStatements", "curlyBlock", 
 			"loopStatements", "print", "comparisonExpression", "logicalExpression", 
 			"operation", "types"
 		};
@@ -394,11 +393,11 @@ public class gebLParser extends Parser {
 		public LogicalExpressionContext logicalExpression(int i) {
 			return getRuleContext(LogicalExpressionContext.class,i);
 		}
-		public List<DecisionalAndLoopBlockContext> decisionalAndLoopBlock() {
-			return getRuleContexts(DecisionalAndLoopBlockContext.class);
+		public List<CurlyBlockContext> curlyBlock() {
+			return getRuleContexts(CurlyBlockContext.class);
 		}
-		public DecisionalAndLoopBlockContext decisionalAndLoopBlock(int i) {
-			return getRuleContext(DecisionalAndLoopBlockContext.class,i);
+		public CurlyBlockContext curlyBlock(int i) {
+			return getRuleContext(CurlyBlockContext.class,i);
 		}
 		public List<TerminalNode> ELSEIF() { return getTokens(gebLParser.ELSEIF); }
 		public TerminalNode ELSEIF(int i) {
@@ -434,7 +433,7 @@ public class gebLParser extends Parser {
 			setState(49);
 			logicalExpression();
 			setState(50);
-			decisionalAndLoopBlock();
+			curlyBlock();
 			setState(57);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -446,7 +445,7 @@ public class gebLParser extends Parser {
 				setState(52);
 				logicalExpression();
 				setState(53);
-				decisionalAndLoopBlock();
+				curlyBlock();
 				}
 				}
 				setState(59);
@@ -461,7 +460,7 @@ public class gebLParser extends Parser {
 				setState(60);
 				match(ELSE);
 				setState(61);
-				decisionalAndLoopBlock();
+				curlyBlock();
 				}
 			}
 
@@ -478,7 +477,7 @@ public class gebLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class DecisionalAndLoopBlockContext extends ParserRuleContext {
+	public static class CurlyBlockContext extends ParserRuleContext {
 		public TerminalNode LCURL() { return getToken(gebLParser.LCURL, 0); }
 		public TerminalNode RCURL() { return getToken(gebLParser.RCURL, 0); }
 		public List<StructContext> struct() {
@@ -487,28 +486,28 @@ public class gebLParser extends Parser {
 		public StructContext struct(int i) {
 			return getRuleContext(StructContext.class,i);
 		}
-		public DecisionalAndLoopBlockContext(ParserRuleContext parent, int invokingState) {
+		public CurlyBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_decisionalAndLoopBlock; }
+		@Override public int getRuleIndex() { return RULE_curlyBlock; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof gebLListener ) ((gebLListener)listener).enterDecisionalAndLoopBlock(this);
+			if ( listener instanceof gebLListener ) ((gebLListener)listener).enterCurlyBlock(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof gebLListener ) ((gebLListener)listener).exitDecisionalAndLoopBlock(this);
+			if ( listener instanceof gebLListener ) ((gebLListener)listener).exitCurlyBlock(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof gebLVisitor ) return ((gebLVisitor<? extends T>)visitor).visitDecisionalAndLoopBlock(this);
+			if ( visitor instanceof gebLVisitor ) return ((gebLVisitor<? extends T>)visitor).visitCurlyBlock(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final DecisionalAndLoopBlockContext decisionalAndLoopBlock() throws RecognitionException {
-		DecisionalAndLoopBlockContext _localctx = new DecisionalAndLoopBlockContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_decisionalAndLoopBlock);
+	public final CurlyBlockContext curlyBlock() throws RecognitionException {
+		CurlyBlockContext _localctx = new CurlyBlockContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_curlyBlock);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -557,8 +556,8 @@ public class gebLParser extends Parser {
 	}
 	public static class DoWhileLoopContext extends LoopStatementsContext {
 		public TerminalNode DO() { return getToken(gebLParser.DO, 0); }
-		public DecisionalAndLoopBlockContext decisionalAndLoopBlock() {
-			return getRuleContext(DecisionalAndLoopBlockContext.class,0);
+		public CurlyBlockContext curlyBlock() {
+			return getRuleContext(CurlyBlockContext.class,0);
 		}
 		public TerminalNode WHILE() { return getToken(gebLParser.WHILE, 0); }
 		public LogicalExpressionContext logicalExpression() {
@@ -584,8 +583,8 @@ public class gebLParser extends Parser {
 		public LogicalExpressionContext logicalExpression() {
 			return getRuleContext(LogicalExpressionContext.class,0);
 		}
-		public DecisionalAndLoopBlockContext decisionalAndLoopBlock() {
-			return getRuleContext(DecisionalAndLoopBlockContext.class,0);
+		public CurlyBlockContext curlyBlock() {
+			return getRuleContext(CurlyBlockContext.class,0);
 		}
 		public WhileLoopContext(LoopStatementsContext ctx) { copyFrom(ctx); }
 		@Override
@@ -619,7 +618,7 @@ public class gebLParser extends Parser {
 				setState(74);
 				logicalExpression();
 				setState(75);
-				decisionalAndLoopBlock();
+				curlyBlock();
 				}
 				break;
 			case DO:
@@ -629,7 +628,7 @@ public class gebLParser extends Parser {
 				setState(77);
 				match(DO);
 				setState(78);
-				decisionalAndLoopBlock();
+				curlyBlock();
 				setState(79);
 				match(WHILE);
 				setState(80);

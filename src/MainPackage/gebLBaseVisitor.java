@@ -52,7 +52,7 @@ public class gebLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements g
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDecisionalAndLoopBlock(gebLParser.DecisionalAndLoopBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCurlyBlock(gebLParser.CurlyBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -76,13 +76,13 @@ public class gebLBaseListener implements gebLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDecisionalAndLoopBlock(gebLParser.DecisionalAndLoopBlockContext ctx) { }
+	@Override public void enterCurlyBlock(gebLParser.CurlyBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDecisionalAndLoopBlock(gebLParser.DecisionalAndLoopBlockContext ctx) { }
+	@Override public void exitCurlyBlock(gebLParser.CurlyBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
