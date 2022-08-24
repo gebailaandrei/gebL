@@ -9,7 +9,7 @@ public class LoopVisitors extends gebLBaseVisitor<Value>{
     @Override
     public Value visitWhileLoop(gebLParser.WhileLoopContext ctx){
         while (new DecisionalVisitors().visit(ctx.logicalExpression()).boolVal){
-            Value val = new DecisionalVisitors().visit(ctx.decisionalAndLoopBlock());
+            Value val = new DecisionalVisitors().visit(ctx.curlyBlock());
             if(val.isReturn) { // If the statement is the result of a return statement and if is inside a func, returns it otherwise it throws an error
                 if (insideFuncCall)
                     return val;
@@ -23,7 +23,7 @@ public class LoopVisitors extends gebLBaseVisitor<Value>{
     @Override
     public Value visitDoWhileLoop(gebLParser.DoWhileLoopContext ctx){
         do{
-            Value val = new DecisionalVisitors().visit(ctx.decisionalAndLoopBlock());
+            Value val = new DecisionalVisitors().visit(ctx.curlyBlock());
             if(val.isReturn) { // If the statement is the result of a return statement and if is inside a func, returns it otherwise it throws an error
                 if (insideFuncCall)
                     return val;

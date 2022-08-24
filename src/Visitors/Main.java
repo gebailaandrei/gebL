@@ -1,6 +1,7 @@
-package MainPackage;
+package Visitors;
 
-import Visitors.Evaluator;
+import MainPackage.gebLLexer;
+import MainPackage.gebLParser;
 import org.antlr.v4.runtime.*;
 import java.io.IOException;
 
