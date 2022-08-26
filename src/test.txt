@@ -1,15 +1,18 @@
-a = 2;
+a = 3;
 b = 3;
 c = 7;
 
-if(5 + a < c - b + 10)
-{
-    print(f);
+switch(a){
+    case(1){
+        print("caz 1");
+    }
+    case(2){
+        print("caz 2");
+    }
+    case(3){
+        print("caz 3");
+    }
+    case(4){
+        print("caz 4");
+    }
 }
-
-i = 1;
-do
-{
-    i += 1;
-    print(i);
-}while(i < 10)

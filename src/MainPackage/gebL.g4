@@ -14,14 +14,13 @@ struct
     | print
     ;
 varHandler
-    : ID ASSIGN operation SCOL                                       # Assignvar
-    | ID op=(MULTEQ | DIVEQ | MODEQ | ADDEQ | SUBEQ) operation SCOL  # Operassign
+    : ID ASSIGN operation SCOL                                          # Assignvar
+    | ID op=(MULTEQ | DIVEQ | MODEQ | ADDEQ | SUBEQ) operation SCOL     # Operassign
     ;
 
 decisionalStatements
-    : IF logicalExpression curlyBlock (ELSEIF logicalExpression curlyBlock)* (ELSE curlyBlock)?   # IfStatement
-//    | SWITCH LPAR operation RPAR LCURL (CASE LPAR operation RPAR decisionalAndLoopBlock)+ RCURL        # SwitchStatement
-//    | ifCondition ? statement SCOL : statement SCOL              # Ternary
+    : IF logicalExpression curlyBlock (ELSEIF logicalExpression curlyBlock)* (ELSE curlyBlock)?      # IfStatement
+    | SWITCH LPAR ID RPAR LCURL (CASE LPAR operation RPAR curlyBlock)+ RCURL                         # SwitchStatement
     ;
 
 curlyBlock
@@ -74,6 +73,7 @@ QUOTE           : '"'  ;
 SQUOTE          : '\'' ;
 SCOL            : ';'  ;
 COL             : ':'  ;
+QMARK           : '?'  ;
 //Operators
 MULT            : '*'  ;
 DIV             : '/'  ;

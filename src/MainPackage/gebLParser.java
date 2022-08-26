@@ -18,12 +18,12 @@ public class gebLParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		LCURL=1, RCURL=2, LSQBR=3, RSQBR=4, LPAR=5, RPAR=6, QUOTE=7, SQUOTE=8, 
-		SCOL=9, COL=10, MULT=11, DIV=12, MOD=13, ADD=14, SUB=15, MULTEQ=16, DIVEQ=17, 
-		MODEQ=18, ADDEQ=19, SUBEQ=20, ASSIGN=21, GT=22, LT=23, GTOE=24, LTOE=25, 
-		EQ=26, NEQ=27, AND=28, OR=29, PRINT=30, IF=31, ELSEIF=32, ELSE=33, SWITCH=34, 
-		CASE=35, BREAK=36, WHILE=37, DO=38, FOR=39, FOREACH=40, DEF=41, RETURN=42, 
-		INT=43, FLOAT=44, STRING=45, ID=46, STRING_VAL=47, FUNC_NAME=48, NUM=49, 
-		COMMENT=50, WS=51;
+		SCOL=9, COL=10, QMARK=11, MULT=12, DIV=13, MOD=14, ADD=15, SUB=16, MULTEQ=17, 
+		DIVEQ=18, MODEQ=19, ADDEQ=20, SUBEQ=21, ASSIGN=22, GT=23, LT=24, GTOE=25, 
+		LTOE=26, EQ=27, NEQ=28, AND=29, OR=30, PRINT=31, IF=32, ELSEIF=33, ELSE=34, 
+		SWITCH=35, CASE=36, BREAK=37, WHILE=38, DO=39, FOR=40, FOREACH=41, DEF=42, 
+		RETURN=43, INT=44, FLOAT=45, STRING=46, ID=47, STRING_VAL=48, FUNC_NAME=49, 
+		NUM=50, COMMENT=51, WS=52;
 	public static final int
 		RULE_list = 0, RULE_struct = 1, RULE_varHandler = 2, RULE_decisionalStatements = 3, 
 		RULE_curlyBlock = 4, RULE_loopStatements = 5, RULE_print = 6, RULE_comparisonExpression = 7, 
@@ -40,22 +40,23 @@ public class gebLParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'{'", "'}'", "']'", "'['", "'('", "')'", "'\"'", "'''", "';'", 
-			"':'", "'*'", "'/'", "'%'", "'+'", "'-'", "'*='", "'/='", "'%='", "'+='", 
-			"'-='", "'='", "'>'", "'<'", "'>='", "'<='", "'=='", "'!='", "'&&'", 
-			"'||'", "'print'", "'if'", "'elseif'", "'else'", "'switch'", "'case'", 
-			"'break'", "'while'", "'do'", "'for'", "'foreach'", "'def'", "'return'", 
-			"'int'", "'float'", "'string'"
+			"':'", "'?'", "'*'", "'/'", "'%'", "'+'", "'-'", "'*='", "'/='", "'%='", 
+			"'+='", "'-='", "'='", "'>'", "'<'", "'>='", "'<='", "'=='", "'!='", 
+			"'&&'", "'||'", "'print'", "'if'", "'elseif'", "'else'", "'switch'", 
+			"'case'", "'break'", "'while'", "'do'", "'for'", "'foreach'", "'def'", 
+			"'return'", "'int'", "'float'", "'string'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, "LCURL", "RCURL", "LSQBR", "RSQBR", "LPAR", "RPAR", "QUOTE", "SQUOTE", 
-			"SCOL", "COL", "MULT", "DIV", "MOD", "ADD", "SUB", "MULTEQ", "DIVEQ", 
-			"MODEQ", "ADDEQ", "SUBEQ", "ASSIGN", "GT", "LT", "GTOE", "LTOE", "EQ", 
-			"NEQ", "AND", "OR", "PRINT", "IF", "ELSEIF", "ELSE", "SWITCH", "CASE", 
-			"BREAK", "WHILE", "DO", "FOR", "FOREACH", "DEF", "RETURN", "INT", "FLOAT", 
-			"STRING", "ID", "STRING_VAL", "FUNC_NAME", "NUM", "COMMENT", "WS"
+			"SCOL", "COL", "QMARK", "MULT", "DIV", "MOD", "ADD", "SUB", "MULTEQ", 
+			"DIVEQ", "MODEQ", "ADDEQ", "SUBEQ", "ASSIGN", "GT", "LT", "GTOE", "LTOE", 
+			"EQ", "NEQ", "AND", "OR", "PRINT", "IF", "ELSEIF", "ELSE", "SWITCH", 
+			"CASE", "BREAK", "WHILE", "DO", "FOR", "FOREACH", "DEF", "RETURN", "INT", 
+			"FLOAT", "STRING", "ID", "STRING_VAL", "FUNC_NAME", "NUM", "COMMENT", 
+			"WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -146,7 +147,7 @@ public class gebLParser extends Parser {
 			setState(25);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << IF) | (1L << WHILE) | (1L << DO) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAR) | (1L << PRINT) | (1L << IF) | (1L << SWITCH) | (1L << WHILE) | (1L << DO) | (1L << ID))) != 0)) {
 				{
 				{
 				setState(22);
@@ -218,7 +219,9 @@ public class gebLParser extends Parser {
 				varHandler();
 				}
 				break;
+			case LPAR:
 			case IF:
+			case SWITCH:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(31);
@@ -419,51 +422,228 @@ public class gebLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class SwitchStatementContext extends DecisionalStatementsContext {
+		public TerminalNode SWITCH() { return getToken(gebLParser.SWITCH, 0); }
+		public List<TerminalNode> LPAR() { return getTokens(gebLParser.LPAR); }
+		public TerminalNode LPAR(int i) {
+			return getToken(gebLParser.LPAR, i);
+		}
+		public TerminalNode ID() { return getToken(gebLParser.ID, 0); }
+		public List<TerminalNode> RPAR() { return getTokens(gebLParser.RPAR); }
+		public TerminalNode RPAR(int i) {
+			return getToken(gebLParser.RPAR, i);
+		}
+		public TerminalNode LCURL() { return getToken(gebLParser.LCURL, 0); }
+		public TerminalNode RCURL() { return getToken(gebLParser.RCURL, 0); }
+		public List<TerminalNode> CASE() { return getTokens(gebLParser.CASE); }
+		public TerminalNode CASE(int i) {
+			return getToken(gebLParser.CASE, i);
+		}
+		public List<OperationContext> operation() {
+			return getRuleContexts(OperationContext.class);
+		}
+		public OperationContext operation(int i) {
+			return getRuleContext(OperationContext.class,i);
+		}
+		public List<CurlyBlockContext> curlyBlock() {
+			return getRuleContexts(CurlyBlockContext.class);
+		}
+		public CurlyBlockContext curlyBlock(int i) {
+			return getRuleContext(CurlyBlockContext.class,i);
+		}
+		public SwitchStatementContext(DecisionalStatementsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof gebLListener ) ((gebLListener)listener).enterSwitchStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof gebLListener ) ((gebLListener)listener).exitSwitchStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof gebLVisitor ) return ((gebLVisitor<? extends T>)visitor).visitSwitchStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class TernaryContext extends DecisionalStatementsContext {
+		public LogicalExpressionContext logicalExpression() {
+			return getRuleContext(LogicalExpressionContext.class,0);
+		}
+		public TerminalNode QMARK() { return getToken(gebLParser.QMARK, 0); }
+		public List<TerminalNode> SCOL() { return getTokens(gebLParser.SCOL); }
+		public TerminalNode SCOL(int i) {
+			return getToken(gebLParser.SCOL, i);
+		}
+		public TerminalNode COL() { return getToken(gebLParser.COL, 0); }
+		public List<OperationContext> operation() {
+			return getRuleContexts(OperationContext.class);
+		}
+		public OperationContext operation(int i) {
+			return getRuleContext(OperationContext.class,i);
+		}
+		public List<VarHandlerContext> varHandler() {
+			return getRuleContexts(VarHandlerContext.class);
+		}
+		public VarHandlerContext varHandler(int i) {
+			return getRuleContext(VarHandlerContext.class,i);
+		}
+		public TernaryContext(DecisionalStatementsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof gebLListener ) ((gebLListener)listener).enterTernary(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof gebLListener ) ((gebLListener)listener).exitTernary(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof gebLVisitor ) return ((gebLVisitor<? extends T>)visitor).visitTernary(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final DecisionalStatementsContext decisionalStatements() throws RecognitionException {
 		DecisionalStatementsContext _localctx = new DecisionalStatementsContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_decisionalStatements);
 		int _la;
 		try {
-			_localctx = new IfStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(48);
-			match(IF);
-			setState(49);
-			logicalExpression();
-			setState(50);
-			curlyBlock();
-			setState(57);
+			setState(95);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==ELSEIF) {
+			switch (_input.LA(1)) {
+			case IF:
+				_localctx = new IfStatementContext(_localctx);
+				enterOuterAlt(_localctx, 1);
 				{
-				{
-				setState(51);
-				match(ELSEIF);
-				setState(52);
+				setState(48);
+				match(IF);
+				setState(49);
 				logicalExpression();
-				setState(53);
+				setState(50);
 				curlyBlock();
-				}
-				}
-				setState(59);
+				setState(57);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
-			setState(62);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==ELSE) {
-				{
-				setState(60);
-				match(ELSE);
-				setState(61);
-				curlyBlock();
+				while (_la==ELSEIF) {
+					{
+					{
+					setState(51);
+					match(ELSEIF);
+					setState(52);
+					logicalExpression();
+					setState(53);
+					curlyBlock();
+					}
+					}
+					setState(59);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
 				}
-			}
+				setState(62);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==ELSE) {
+					{
+					setState(60);
+					match(ELSE);
+					setState(61);
+					curlyBlock();
+					}
+				}
 
+				}
+				break;
+			case SWITCH:
+				_localctx = new SwitchStatementContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(64);
+				match(SWITCH);
+				setState(65);
+				match(LPAR);
+				setState(66);
+				match(ID);
+				setState(67);
+				match(RPAR);
+				setState(68);
+				match(LCURL);
+				setState(75); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(69);
+					match(CASE);
+					setState(70);
+					match(LPAR);
+					setState(71);
+					operation(0);
+					setState(72);
+					match(RPAR);
+					setState(73);
+					curlyBlock();
+					}
+					}
+					setState(77); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==CASE );
+				setState(79);
+				match(RCURL);
+				}
+				break;
+			case LPAR:
+				_localctx = new TernaryContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(81);
+				logicalExpression();
+				setState(82);
+				match(QMARK);
+				setState(85);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+				case 1:
+					{
+					setState(83);
+					operation(0);
+					}
+					break;
+				case 2:
+					{
+					setState(84);
+					varHandler();
+					}
+					break;
+				}
+				setState(87);
+				match(SCOL);
+				setState(88);
+				match(COL);
+				setState(91);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
+				case 1:
+					{
+					setState(89);
+					operation(0);
+					}
+					break;
+				case 2:
+					{
+					setState(90);
+					varHandler();
+					}
+					break;
+				}
+				setState(93);
+				match(SCOL);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -512,23 +692,23 @@ public class gebLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
+			setState(97);
 			match(LCURL);
-			setState(68);
+			setState(101);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << IF) | (1L << WHILE) | (1L << DO) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAR) | (1L << PRINT) | (1L << IF) | (1L << SWITCH) | (1L << WHILE) | (1L << DO) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(65);
+				setState(98);
 				struct();
 				}
 				}
-				setState(70);
+				setState(103);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(71);
+			setState(104);
 			match(RCURL);
 			}
 		}
@@ -606,18 +786,18 @@ public class gebLParser extends Parser {
 		LoopStatementsContext _localctx = new LoopStatementsContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_loopStatements);
 		try {
-			setState(82);
+			setState(115);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case WHILE:
 				_localctx = new WhileLoopContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(73);
+				setState(106);
 				match(WHILE);
-				setState(74);
+				setState(107);
 				logicalExpression();
-				setState(75);
+				setState(108);
 				curlyBlock();
 				}
 				break;
@@ -625,13 +805,13 @@ public class gebLParser extends Parser {
 				_localctx = new DoWhileLoopContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(77);
+				setState(110);
 				match(DO);
-				setState(78);
+				setState(111);
 				curlyBlock();
-				setState(79);
+				setState(112);
 				match(WHILE);
-				setState(80);
+				setState(113);
 				logicalExpression();
 				}
 				break;
@@ -683,15 +863,15 @@ public class gebLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
+			setState(117);
 			match(PRINT);
-			setState(85);
+			setState(118);
 			match(LPAR);
-			setState(86);
+			setState(119);
 			operation(0);
-			setState(87);
+			setState(120);
 			match(RPAR);
-			setState(88);
+			setState(121);
 			match(SCOL);
 			}
 		}
@@ -746,9 +926,9 @@ public class gebLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(90);
+			setState(123);
 			operation(0);
-			setState(91);
+			setState(124);
 			((ComparisonExpressionContext)_localctx).op = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GT) | (1L << LT) | (1L << GTOE) | (1L << LTOE) | (1L << EQ) | (1L << NEQ))) != 0)) ) {
@@ -759,7 +939,7 @@ public class gebLParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(92);
+			setState(125);
 			operation(0);
 			}
 		}
@@ -818,17 +998,17 @@ public class gebLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(94);
+			setState(127);
 			match(LPAR);
-			setState(95);
+			setState(128);
 			comparisonExpression();
-			setState(100);
+			setState(133);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==AND || _la==OR) {
 				{
 				{
-				setState(96);
+				setState(129);
 				((LogicalExpressionContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==AND || _la==OR) ) {
@@ -839,15 +1019,15 @@ public class gebLParser extends Parser {
 					_errHandler.reportMatch(this);
 					consume();
 				}
-				setState(97);
+				setState(130);
 				comparisonExpression();
 				}
 				}
-				setState(102);
+				setState(135);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(103);
+			setState(136);
 			match(RPAR);
 			}
 		}
@@ -1013,7 +1193,7 @@ public class gebLParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113);
+			setState(146);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LPAR:
@@ -1022,11 +1202,11 @@ public class gebLParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(106);
+				setState(139);
 				match(LPAR);
-				setState(107);
+				setState(140);
 				operation(0);
-				setState(108);
+				setState(141);
 				match(RPAR);
 				}
 				break;
@@ -1035,7 +1215,7 @@ public class gebLParser extends Parser {
 				_localctx = new NumContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(110);
+				setState(143);
 				match(NUM);
 				}
 				break;
@@ -1044,7 +1224,7 @@ public class gebLParser extends Parser {
 				_localctx = new IdContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(111);
+				setState(144);
 				match(ID);
 				}
 				break;
@@ -1053,7 +1233,7 @@ public class gebLParser extends Parser {
 				_localctx = new StringContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(112);
+				setState(145);
 				match(STRING_VAL);
 				}
 				break;
@@ -1061,24 +1241,24 @@ public class gebLParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(123);
+			setState(156);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(121);
+					setState(154);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultOpContext(new OperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_operation);
-						setState(115);
+						setState(148);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(116);
+						setState(149);
 						((MultOpContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULT) | (1L << DIV) | (1L << MOD))) != 0)) ) {
@@ -1089,7 +1269,7 @@ public class gebLParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(117);
+						setState(150);
 						operation(6);
 						}
 						break;
@@ -1097,9 +1277,9 @@ public class gebLParser extends Parser {
 						{
 						_localctx = new AddOpContext(new OperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_operation);
-						setState(118);
+						setState(151);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(119);
+						setState(152);
 						((AddOpContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==ADD || _la==SUB) ) {
@@ -1110,16 +1290,16 @@ public class gebLParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(120);
+						setState(153);
 						operation(5);
 						}
 						break;
 					}
 					} 
 				}
-				setState(125);
+				setState(158);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 			}
 			}
 		}
@@ -1164,7 +1344,7 @@ public class gebLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(126);
+			setState(159);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << FLOAT) | (1L << STRING))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1205,7 +1385,7 @@ public class gebLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u00013\u0081\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u00014\u00a2\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0001\u0000\u0005\u0000\u0018"+
@@ -1215,23 +1395,29 @@ public class gebLParser extends Parser {
 		"\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002/\b\u0002\u0001\u0003"+
 		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
 		"\u0005\u00038\b\u0003\n\u0003\f\u0003;\t\u0003\u0001\u0003\u0001\u0003"+
-		"\u0003\u0003?\b\u0003\u0001\u0004\u0001\u0004\u0005\u0004C\b\u0004\n\u0004"+
-		"\f\u0004F\t\u0004\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001"+
-		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
-		"\u0005\u0003\u0005S\b\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
-		"\u0006\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0001"+
-		"\u0007\u0001\b\u0001\b\u0001\b\u0001\b\u0005\bc\b\b\n\b\f\bf\t\b\u0001"+
-		"\b\u0001\b\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001"+
-		"\t\u0003\tr\b\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0005"+
-		"\tz\b\t\n\t\f\t}\t\t\u0001\n\u0001\n\u0001\n\u0000\u0001\u0012\u000b\u0000"+
-		"\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0000\u0006\u0001\u0000"+
-		"\u0010\u0014\u0001\u0000\u0016\u001b\u0001\u0000\u001c\u001d\u0001\u0000"+
-		"\u000b\r\u0001\u0000\u000e\u000f\u0001\u0000+-\u0084\u0000\u0019\u0001"+
-		"\u0000\u0000\u0000\u0002\"\u0001\u0000\u0000\u0000\u0004.\u0001\u0000"+
-		"\u0000\u0000\u00060\u0001\u0000\u0000\u0000\b@\u0001\u0000\u0000\u0000"+
-		"\nR\u0001\u0000\u0000\u0000\fT\u0001\u0000\u0000\u0000\u000eZ\u0001\u0000"+
-		"\u0000\u0000\u0010^\u0001\u0000\u0000\u0000\u0012q\u0001\u0000\u0000\u0000"+
-		"\u0014~\u0001\u0000\u0000\u0000\u0016\u0018\u0003\u0002\u0001\u0000\u0017"+
+		"\u0003\u0003?\b\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0001\u0003\u0004\u0003L\b\u0003\u000b\u0003\f\u0003M\u0001\u0003\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0003\u0003V\b"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0003\u0003\\\b"+
+		"\u0003\u0001\u0003\u0001\u0003\u0003\u0003`\b\u0003\u0001\u0004\u0001"+
+		"\u0004\u0005\u0004d\b\u0004\n\u0004\f\u0004g\t\u0004\u0001\u0004\u0001"+
+		"\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
+		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003\u0005t\b\u0005\u0001"+
+		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0001"+
+		"\b\u0005\b\u0084\b\b\n\b\f\b\u0087\t\b\u0001\b\u0001\b\u0001\t\u0001\t"+
+		"\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0003\t\u0093\b\t\u0001"+
+		"\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0005\t\u009b\b\t\n\t\f\t\u009e"+
+		"\t\t\u0001\n\u0001\n\u0001\n\u0000\u0001\u0012\u000b\u0000\u0002\u0004"+
+		"\u0006\b\n\f\u000e\u0010\u0012\u0014\u0000\u0006\u0001\u0000\u0011\u0015"+
+		"\u0001\u0000\u0017\u001c\u0001\u0000\u001d\u001e\u0001\u0000\f\u000e\u0001"+
+		"\u0000\u000f\u0010\u0001\u0000,.\u00aa\u0000\u0019\u0001\u0000\u0000\u0000"+
+		"\u0002\"\u0001\u0000\u0000\u0000\u0004.\u0001\u0000\u0000\u0000\u0006"+
+		"_\u0001\u0000\u0000\u0000\ba\u0001\u0000\u0000\u0000\ns\u0001\u0000\u0000"+
+		"\u0000\fu\u0001\u0000\u0000\u0000\u000e{\u0001\u0000\u0000\u0000\u0010"+
+		"\u007f\u0001\u0000\u0000\u0000\u0012\u0092\u0001\u0000\u0000\u0000\u0014"+
+		"\u009f\u0001\u0000\u0000\u0000\u0016\u0018\u0003\u0002\u0001\u0000\u0017"+
 		"\u0016\u0001\u0000\u0000\u0000\u0018\u001b\u0001\u0000\u0000\u0000\u0019"+
 		"\u0017\u0001\u0000\u0000\u0000\u0019\u001a\u0001\u0000\u0000\u0000\u001a"+
 		"\u001c\u0001\u0000\u0000\u0000\u001b\u0019\u0001\u0000\u0000\u0000\u001c"+
@@ -1239,44 +1425,62 @@ public class gebLParser extends Parser {
 		"#\u0003\u0004\u0002\u0000\u001f#\u0003\u0006\u0003\u0000 #\u0003\n\u0005"+
 		"\u0000!#\u0003\f\u0006\u0000\"\u001e\u0001\u0000\u0000\u0000\"\u001f\u0001"+
 		"\u0000\u0000\u0000\" \u0001\u0000\u0000\u0000\"!\u0001\u0000\u0000\u0000"+
-		"#\u0003\u0001\u0000\u0000\u0000$%\u0005.\u0000\u0000%&\u0005\u0015\u0000"+
+		"#\u0003\u0001\u0000\u0000\u0000$%\u0005/\u0000\u0000%&\u0005\u0016\u0000"+
 		"\u0000&\'\u0003\u0012\t\u0000\'(\u0005\t\u0000\u0000(/\u0001\u0000\u0000"+
-		"\u0000)*\u0005.\u0000\u0000*+\u0007\u0000\u0000\u0000+,\u0003\u0012\t"+
+		"\u0000)*\u0005/\u0000\u0000*+\u0007\u0000\u0000\u0000+,\u0003\u0012\t"+
 		"\u0000,-\u0005\t\u0000\u0000-/\u0001\u0000\u0000\u0000.$\u0001\u0000\u0000"+
 		"\u0000.)\u0001\u0000\u0000\u0000/\u0005\u0001\u0000\u0000\u000001\u0005"+
-		"\u001f\u0000\u000012\u0003\u0010\b\u000029\u0003\b\u0004\u000034\u0005"+
-		" \u0000\u000045\u0003\u0010\b\u000056\u0003\b\u0004\u000068\u0001\u0000"+
-		"\u0000\u000073\u0001\u0000\u0000\u00008;\u0001\u0000\u0000\u000097\u0001"+
-		"\u0000\u0000\u00009:\u0001\u0000\u0000\u0000:>\u0001\u0000\u0000\u0000"+
-		";9\u0001\u0000\u0000\u0000<=\u0005!\u0000\u0000=?\u0003\b\u0004\u0000"+
-		"><\u0001\u0000\u0000\u0000>?\u0001\u0000\u0000\u0000?\u0007\u0001\u0000"+
-		"\u0000\u0000@D\u0005\u0001\u0000\u0000AC\u0003\u0002\u0001\u0000BA\u0001"+
-		"\u0000\u0000\u0000CF\u0001\u0000\u0000\u0000DB\u0001\u0000\u0000\u0000"+
-		"DE\u0001\u0000\u0000\u0000EG\u0001\u0000\u0000\u0000FD\u0001\u0000\u0000"+
-		"\u0000GH\u0005\u0002\u0000\u0000H\t\u0001\u0000\u0000\u0000IJ\u0005%\u0000"+
-		"\u0000JK\u0003\u0010\b\u0000KL\u0003\b\u0004\u0000LS\u0001\u0000\u0000"+
-		"\u0000MN\u0005&\u0000\u0000NO\u0003\b\u0004\u0000OP\u0005%\u0000\u0000"+
-		"PQ\u0003\u0010\b\u0000QS\u0001\u0000\u0000\u0000RI\u0001\u0000\u0000\u0000"+
-		"RM\u0001\u0000\u0000\u0000S\u000b\u0001\u0000\u0000\u0000TU\u0005\u001e"+
-		"\u0000\u0000UV\u0005\u0005\u0000\u0000VW\u0003\u0012\t\u0000WX\u0005\u0006"+
-		"\u0000\u0000XY\u0005\t\u0000\u0000Y\r\u0001\u0000\u0000\u0000Z[\u0003"+
-		"\u0012\t\u0000[\\\u0007\u0001\u0000\u0000\\]\u0003\u0012\t\u0000]\u000f"+
-		"\u0001\u0000\u0000\u0000^_\u0005\u0005\u0000\u0000_d\u0003\u000e\u0007"+
-		"\u0000`a\u0007\u0002\u0000\u0000ac\u0003\u000e\u0007\u0000b`\u0001\u0000"+
-		"\u0000\u0000cf\u0001\u0000\u0000\u0000db\u0001\u0000\u0000\u0000de\u0001"+
-		"\u0000\u0000\u0000eg\u0001\u0000\u0000\u0000fd\u0001\u0000\u0000\u0000"+
-		"gh\u0005\u0006\u0000\u0000h\u0011\u0001\u0000\u0000\u0000ij\u0006\t\uffff"+
-		"\uffff\u0000jk\u0005\u0005\u0000\u0000kl\u0003\u0012\t\u0000lm\u0005\u0006"+
-		"\u0000\u0000mr\u0001\u0000\u0000\u0000nr\u00051\u0000\u0000or\u0005.\u0000"+
-		"\u0000pr\u0005/\u0000\u0000qi\u0001\u0000\u0000\u0000qn\u0001\u0000\u0000"+
-		"\u0000qo\u0001\u0000\u0000\u0000qp\u0001\u0000\u0000\u0000r{\u0001\u0000"+
-		"\u0000\u0000st\n\u0005\u0000\u0000tu\u0007\u0003\u0000\u0000uz\u0003\u0012"+
-		"\t\u0006vw\n\u0004\u0000\u0000wx\u0007\u0004\u0000\u0000xz\u0003\u0012"+
-		"\t\u0005ys\u0001\u0000\u0000\u0000yv\u0001\u0000\u0000\u0000z}\u0001\u0000"+
-		"\u0000\u0000{y\u0001\u0000\u0000\u0000{|\u0001\u0000\u0000\u0000|\u0013"+
-		"\u0001\u0000\u0000\u0000}{\u0001\u0000\u0000\u0000~\u007f\u0007\u0005"+
-		"\u0000\u0000\u007f\u0015\u0001\u0000\u0000\u0000\u000b\u0019\".9>DRdq"+
-		"y{";
+		" \u0000\u000012\u0003\u0010\b\u000029\u0003\b\u0004\u000034\u0005!\u0000"+
+		"\u000045\u0003\u0010\b\u000056\u0003\b\u0004\u000068\u0001\u0000\u0000"+
+		"\u000073\u0001\u0000\u0000\u00008;\u0001\u0000\u0000\u000097\u0001\u0000"+
+		"\u0000\u00009:\u0001\u0000\u0000\u0000:>\u0001\u0000\u0000\u0000;9\u0001"+
+		"\u0000\u0000\u0000<=\u0005\"\u0000\u0000=?\u0003\b\u0004\u0000><\u0001"+
+		"\u0000\u0000\u0000>?\u0001\u0000\u0000\u0000?`\u0001\u0000\u0000\u0000"+
+		"@A\u0005#\u0000\u0000AB\u0005\u0005\u0000\u0000BC\u0005/\u0000\u0000C"+
+		"D\u0005\u0006\u0000\u0000DK\u0005\u0001\u0000\u0000EF\u0005$\u0000\u0000"+
+		"FG\u0005\u0005\u0000\u0000GH\u0003\u0012\t\u0000HI\u0005\u0006\u0000\u0000"+
+		"IJ\u0003\b\u0004\u0000JL\u0001\u0000\u0000\u0000KE\u0001\u0000\u0000\u0000"+
+		"LM\u0001\u0000\u0000\u0000MK\u0001\u0000\u0000\u0000MN\u0001\u0000\u0000"+
+		"\u0000NO\u0001\u0000\u0000\u0000OP\u0005\u0002\u0000\u0000P`\u0001\u0000"+
+		"\u0000\u0000QR\u0003\u0010\b\u0000RU\u0005\u000b\u0000\u0000SV\u0003\u0012"+
+		"\t\u0000TV\u0003\u0004\u0002\u0000US\u0001\u0000\u0000\u0000UT\u0001\u0000"+
+		"\u0000\u0000VW\u0001\u0000\u0000\u0000WX\u0005\t\u0000\u0000X[\u0005\n"+
+		"\u0000\u0000Y\\\u0003\u0012\t\u0000Z\\\u0003\u0004\u0002\u0000[Y\u0001"+
+		"\u0000\u0000\u0000[Z\u0001\u0000\u0000\u0000\\]\u0001\u0000\u0000\u0000"+
+		"]^\u0005\t\u0000\u0000^`\u0001\u0000\u0000\u0000_0\u0001\u0000\u0000\u0000"+
+		"_@\u0001\u0000\u0000\u0000_Q\u0001\u0000\u0000\u0000`\u0007\u0001\u0000"+
+		"\u0000\u0000ae\u0005\u0001\u0000\u0000bd\u0003\u0002\u0001\u0000cb\u0001"+
+		"\u0000\u0000\u0000dg\u0001\u0000\u0000\u0000ec\u0001\u0000\u0000\u0000"+
+		"ef\u0001\u0000\u0000\u0000fh\u0001\u0000\u0000\u0000ge\u0001\u0000\u0000"+
+		"\u0000hi\u0005\u0002\u0000\u0000i\t\u0001\u0000\u0000\u0000jk\u0005&\u0000"+
+		"\u0000kl\u0003\u0010\b\u0000lm\u0003\b\u0004\u0000mt\u0001\u0000\u0000"+
+		"\u0000no\u0005\'\u0000\u0000op\u0003\b\u0004\u0000pq\u0005&\u0000\u0000"+
+		"qr\u0003\u0010\b\u0000rt\u0001\u0000\u0000\u0000sj\u0001\u0000\u0000\u0000"+
+		"sn\u0001\u0000\u0000\u0000t\u000b\u0001\u0000\u0000\u0000uv\u0005\u001f"+
+		"\u0000\u0000vw\u0005\u0005\u0000\u0000wx\u0003\u0012\t\u0000xy\u0005\u0006"+
+		"\u0000\u0000yz\u0005\t\u0000\u0000z\r\u0001\u0000\u0000\u0000{|\u0003"+
+		"\u0012\t\u0000|}\u0007\u0001\u0000\u0000}~\u0003\u0012\t\u0000~\u000f"+
+		"\u0001\u0000\u0000\u0000\u007f\u0080\u0005\u0005\u0000\u0000\u0080\u0085"+
+		"\u0003\u000e\u0007\u0000\u0081\u0082\u0007\u0002\u0000\u0000\u0082\u0084"+
+		"\u0003\u000e\u0007\u0000\u0083\u0081\u0001\u0000\u0000\u0000\u0084\u0087"+
+		"\u0001\u0000\u0000\u0000\u0085\u0083\u0001\u0000\u0000\u0000\u0085\u0086"+
+		"\u0001\u0000\u0000\u0000\u0086\u0088\u0001\u0000\u0000\u0000\u0087\u0085"+
+		"\u0001\u0000\u0000\u0000\u0088\u0089\u0005\u0006\u0000\u0000\u0089\u0011"+
+		"\u0001\u0000\u0000\u0000\u008a\u008b\u0006\t\uffff\uffff\u0000\u008b\u008c"+
+		"\u0005\u0005\u0000\u0000\u008c\u008d\u0003\u0012\t\u0000\u008d\u008e\u0005"+
+		"\u0006\u0000\u0000\u008e\u0093\u0001\u0000\u0000\u0000\u008f\u0093\u0005"+
+		"2\u0000\u0000\u0090\u0093\u0005/\u0000\u0000\u0091\u0093\u00050\u0000"+
+		"\u0000\u0092\u008a\u0001\u0000\u0000\u0000\u0092\u008f\u0001\u0000\u0000"+
+		"\u0000\u0092\u0090\u0001\u0000\u0000\u0000\u0092\u0091\u0001\u0000\u0000"+
+		"\u0000\u0093\u009c\u0001\u0000\u0000\u0000\u0094\u0095\n\u0005\u0000\u0000"+
+		"\u0095\u0096\u0007\u0003\u0000\u0000\u0096\u009b\u0003\u0012\t\u0006\u0097"+
+		"\u0098\n\u0004\u0000\u0000\u0098\u0099\u0007\u0004\u0000\u0000\u0099\u009b"+
+		"\u0003\u0012\t\u0005\u009a\u0094\u0001\u0000\u0000\u0000\u009a\u0097\u0001"+
+		"\u0000\u0000\u0000\u009b\u009e\u0001\u0000\u0000\u0000\u009c\u009a\u0001"+
+		"\u0000\u0000\u0000\u009c\u009d\u0001\u0000\u0000\u0000\u009d\u0013\u0001"+
+		"\u0000\u0000\u0000\u009e\u009c\u0001\u0000\u0000\u0000\u009f\u00a0\u0007"+
+		"\u0005\u0000\u0000\u00a0\u0015\u0001\u0000\u0000\u0000\u000f\u0019\"."+
+		"9>MU[_es\u0085\u0092\u009a\u009c";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
