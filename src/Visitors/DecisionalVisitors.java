@@ -1,6 +1,9 @@
 package Visitors;
 
 import MainPackage.*;
+
+import java.util.Objects;
+
 import static Visitors.Evaluator.insideFuncCall;
 import static Visitors.Evaluator.ThrowError;
 
@@ -62,15 +65,16 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
         return new Value(false);
     }
 
-    /*    @Override
+        @Override
         public Value visitSwitchStatement(gebLParser.SwitchStatementContext ctx){
-            Value val = new ExprVisitors().visit(ctx.operation(0));
-            var value = val.isInt ? val.numVal :
-            switch (){
+            Value val = VarHandler.findVar(ctx.ID().getText());
 
-            }
+            for(int i = 0; i < ctx.operation().size() - 1; i++)
+                if(Objects.equals(val.getFloat(), new ExprVisitors().visit(ctx.operation(i)).getFloat()))
+                    return this.visit(ctx.curlyBlock(i));
+
             return new Value();
-        }*/
+        }
 
     @Override // This visits the statements inside the if/elseif/else and switch cases
     public Value visitCurlyBlock(gebLParser.CurlyBlockContext ctx){
