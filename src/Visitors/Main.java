@@ -8,7 +8,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         String fileName = "test";
-        CharStream in = CharStreams.fromFileName("./src/" + fileName + ".txt");
+        CharStream in = CharStreams.fromFileName("./src/" + fileName + ".gebl");
         gebLLexer lexer = new gebLLexer(in);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         gebLParser parser = new gebLParser(tokens);
