@@ -59,7 +59,7 @@ public class gebLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements g
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTernary(gebLParser.TernaryContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTernaryStatement(gebLParser.TernaryStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

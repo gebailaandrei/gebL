@@ -51,12 +51,12 @@ public interface gebLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSwitchStatement(gebLParser.SwitchStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Ternary}
+	 * Visit a parse tree produced by the {@code TernaryStatement}
 	 * labeled alternative in {@link gebLParser#decisionalStatements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTernary(gebLParser.TernaryContext ctx);
+	T visitTernaryStatement(gebLParser.TernaryStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gebLParser#curlyBlock}.
 	 * @param ctx the parse tree

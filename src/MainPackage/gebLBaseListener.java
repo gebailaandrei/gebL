@@ -88,13 +88,13 @@ public class gebLBaseListener implements gebLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTernary(gebLParser.TernaryContext ctx) { }
+	@Override public void enterTernaryStatement(gebLParser.TernaryStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTernary(gebLParser.TernaryContext ctx) { }
+	@Override public void exitTernaryStatement(gebLParser.TernaryStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

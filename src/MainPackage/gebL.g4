@@ -21,7 +21,7 @@ varHandler
 decisionalStatements
     : IF logicalExpression curlyBlock (ELSEIF logicalExpression curlyBlock)* (ELSE curlyBlock)?      # IfStatement
     | SWITCH LPAR ID RPAR LCURL (CASE LPAR operation RPAR curlyBlock)+ (DEFAULT curlyBlock)? RCURL   # SwitchStatement
-    | logicalExpression QMARK (operation | varHandler) SCOL COL (operation | varHandler) SCOL        # Ternary
+    | logicalExpression QMARK (operation | varHandler) COL (operation | varHandler)        # TernaryStatement
     ;
 
 curlyBlock
