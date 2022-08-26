@@ -69,9 +69,12 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
         public Value visitSwitchStatement(gebLParser.SwitchStatementContext ctx){
             Value val = VarHandler.findVar(ctx.ID().getText());
 
-            for(int i = 0; i < ctx.operation().size() - 1; i++)
+            for(int i = 0; i < ctx.operation().size(); i++)
                 if(Objects.equals(val.getFloat(), new ExprVisitors().visit(ctx.operation(i)).getFloat()))
                     return this.visit(ctx.curlyBlock(i));
+
+            if(ctx.DEFAULT() != null)
+                return this.visit(ctx.curlyBlock(ctx.curlyBlock().size()-1));
 
             return new Value();
         }
