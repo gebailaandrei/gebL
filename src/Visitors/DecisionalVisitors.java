@@ -40,6 +40,16 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
     }
 
     @Override
+    public Value visitTernaryStatement(gebLParser.TernaryStatementContext ctx)
+    {
+        return this.visit(ctx.logicalExpression()).boolVal ?
+                ctx.operation(0) != null ?
+                    new ExprVisitors().visit(ctx.operation(0)) : new VarHandler().visit(ctx.varHandler(0)) :
+                ctx.operation(1) != null ?
+                    new ExprVisitors().visit(ctx.operation(1)) : new VarHandler().visit(ctx.varHandler(1));
+    }
+
+    @Override
     public Value visitLogicalExpression(gebLParser.LogicalExpressionContext ctx){
         boolean prev;
         if(ctx.comparisonExpression().size() == 1)
@@ -65,19 +75,19 @@ public class DecisionalVisitors extends gebLBaseVisitor<Value>{
         return new Value(false);
     }
 
-        @Override
-        public Value visitSwitchStatement(gebLParser.SwitchStatementContext ctx){
-            Value val = VarHandler.findVar(ctx.ID().getText());
+    @Override
+    public Value visitSwitchStatement(gebLParser.SwitchStatementContext ctx){
+        Value val = VarHandler.findVar(ctx.ID().getText());
 
-            for(int i = 0; i < ctx.operation().size(); i++)
-                if(Objects.equals(val.getFloat(), new ExprVisitors().visit(ctx.operation(i)).getFloat()))
-                    return this.visit(ctx.curlyBlock(i));
+        for(int i = 0; i < ctx.operation().size(); i++)
+            if(Objects.equals(val.getFloat(), new ExprVisitors().visit(ctx.operation(i)).getFloat()))
+                return this.visit(ctx.curlyBlock(i));
 
-            if(ctx.DEFAULT() != null)
-                return this.visit(ctx.curlyBlock(ctx.curlyBlock().size()-1));
+        if(ctx.DEFAULT() != null)
+            return this.visit(ctx.curlyBlock(ctx.curlyBlock().size()-1));
 
-            return new Value();
-        }
+        return new Value();
+    }
 
     @Override // This visits the statements inside the if/elseif/else and switch cases
     public Value visitCurlyBlock(gebLParser.CurlyBlockContext ctx){
