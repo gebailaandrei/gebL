@@ -7,8 +7,8 @@ public class Value{
     Object numVal; // Visitors.Value of the var
     String strVal; // Name of the var
     boolean boolVal; // For storing boolean values
-    int type = 0;
-    boolean isInt = false; // Whether it's an int or a float
+    boolean isInt = false; // Whether it's an int or not
+    boolean isFloat = false; // Whether it's a float or not
     boolean isReturn = false; // Used to tell if the Visitors.Value is returned by a function or not
     boolean isVoid = false; // Used for when a function returns void
 
@@ -16,6 +16,8 @@ public class Value{
     public Value(Float val){
         if(val.intValue() == val)
             isInt = true;
+        else
+            isFloat = true;
         this.numVal = val;
     }
     public Value(boolean val)
