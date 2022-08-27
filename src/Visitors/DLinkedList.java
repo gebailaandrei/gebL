@@ -4,10 +4,10 @@ import java.util.List;
 
 public class DLinkedList {
     public Node head, tail;
-    int size = 0;
+    public int size = 0;
 
     public DLinkedList() {}
-
+    // Add element at the tail of the list
     public void addTail(int value)
     {
         size++;
@@ -24,7 +24,7 @@ public class DLinkedList {
             tail.right = null;
         }
     }
-
+    // Add element at the head of the list
     public void addHead(int value)
     {
         size++;
@@ -41,7 +41,7 @@ public class DLinkedList {
             head.left = null;
         }
     }
-    // TODO FIX THIS
+    // Add element at specified position
     public void addPos(int index, int value)
     {
         size++;
@@ -91,7 +91,12 @@ public class DLinkedList {
         }
         throw new Error("Index out of bounds.");
     }
+    // TODO
+    public void delete(int index)
+    {
 
+    }
+    // Replace element at specified position
     public void replace(int index, int value)
     {
         Node node = head;
@@ -110,7 +115,7 @@ public class DLinkedList {
         }
         throw new Error("Index out of bounds.");
     }
-
+    // Get the element at the specified position
     public int getElement(int index)
     {
         Node node = head;
