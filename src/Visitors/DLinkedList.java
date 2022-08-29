@@ -1,13 +1,20 @@
 package Visitors;
 
-import java.util.List;
-
 public class DLinkedList {
+    class Node{
+        int value;
+        Node left, right;
+
+        public Node(int value) {
+            this.value = value;
+        }
+    }
+
     public Node head, tail;
     public int size = 0;
 
     public DLinkedList() {}
-    // Add element at the tail of the list
+    /** Add element at the tail of the list */
     public void addTail(int value)
     {
         size++;
@@ -24,7 +31,7 @@ public class DLinkedList {
             tail.right = null;
         }
     }
-    // Add element at the head of the list
+    /** Add element at the head of the list */
     public void addHead(int value)
     {
         size++;
@@ -41,116 +48,203 @@ public class DLinkedList {
             head.left = null;
         }
     }
-    // Add element at specified position
+    /** Add element at the specified position */
     public void addPos(int index, int value)
     {
-        size++;
         Node node = new Node(value);
         if(head == null) {
             head = tail = node;
             head.left = tail.right = null;
+            size++;
+            return;
         }
         else
         {
-            node = head;
-            int i = 0;
-            while (node != null) {
+            if(index == 0) {
+                addHead(value);
+                return;
+            }
+            else if(index == size){
+                addTail(value);
+                return;
+            }
+            node = head.right;
+
+            int i = 1;
+            if(index > size/2)
+            {
+                i = size-1;
+                node = tail;
+            }
+
+            do {
                 if (i == index) {
-                    if(i == 0)
-                    {
-                        Node newNode = new Node(value);
-                        newNode.left = null;
-                        newNode.right = node;
-
-                        node.left = newNode;
-                        head = newNode;
-                    }
-                    else if(i == size - 1)
-                    {
-                        Node newNode = new Node(value);
-                        newNode.left = node;
-                        newNode.right = null;
-
-                        node.right = newNode;
-                        tail = newNode;
-                    }
-                    else
-                    {
-                        Node newNode = new Node(value);
-                        newNode.left = node.left;
-                        node.left.right = newNode;
-                        newNode.right = node;
-                        node.left = newNode;
-                    }
-
+                    Node newNode = new Node(value);
+                    newNode.left = node.left;
+                    node.left.right = newNode;
+                    newNode.right = node;
+                    node.left = newNode;
+                    size++;
                     return;
                 }
-                node = node.right;
-                i++;
-            }
+
+                if(index <= size/2)
+                {
+                    i++;
+                    node = node.right;
+                }
+                else
+                {
+                    i--;
+                    node = node.left;
+                }
+            } while (node != null);
         }
         throw new Error("Index out of bounds.");
     }
-    // TODO
-    public void delete(int index)
+    /** Remove element at the tail of the list */
+    public void deleteTail()
     {
-
+        tail.left.right = null;
+        tail = tail.left;
+        size--;
     }
-    // Replace element at specified position
+    /** Remove element at the head of the list */
+    public void deleteHead()
+    {
+        head.right.left = null;
+        head = head.right;
+        size--;
+    }
+    /** Remove element at the specified position */
+    public void deletePos(int index)
+    {
+        Node node;
+
+        if(index == 0) {
+            deleteHead();
+            return;
+        }
+        else if(index == size-1){
+            deleteTail();
+            return;
+        }
+
+        node = head.right;
+
+        int i = 1;
+        if(index > size/2)
+        {
+            i = size-2;
+            node = tail.left;
+        }
+
+        do {
+            if (i == index) {
+                node.left.right = node.right;
+                node.right.left = node.left;
+                size--;
+                return;
+            }
+
+            if(index <= size/2)
+            {
+                i++;
+                node = node.right;
+            }
+            else
+            {
+                i--;
+                node = node.left;
+            }
+        } while (node != null);
+        throw new Error("Index out of bounds.");
+    }
+    /** Replace element at the specified position */
     public void replace(int index, int value)
     {
-        Node node = head;
+        Node node;
         if(head == null) {
             throw new Error("List is empty.");
         }
+
+        node = head;
+
         int i = 0;
+        if(index > size/2)
+        {
+            i = size-1;
+            node = tail;
+        }
+
         while(node != null) {
             if(i == index)
             {
                 node.value = value;
                 return;
             }
-            node = node.right;
-            i++;
+            if(index <= size / 2)
+            {
+                i++;
+                node = node.right;
+            }
+            else
+            {
+                i--;
+                node = node.left;
+            }
         }
         throw new Error("Index out of bounds.");
     }
-    // Get the element at the specified position
+    /** Get the element at the specified position */
     public int getElement(int index)
     {
         Node node = head;
         if(head == null) {
             throw new Error("List is empty.");
         }
+
         int i = 0;
+        if(index > size/2)
+        {
+            i = size-1;
+            node = tail;
+        }
+
         while(node != null) {
             if(i == index)
                 return node.value;
-            node = node.right;
-            i++;
+
+            if(index <= size / 2)
+            {
+                i++;
+                node = node.right;
+            }
+            else
+            {
+                i--;
+                node = node.left;
+            }
         }
         throw new Error("Index out of bounds.");
+    }
+    /** Prints the list */
+    public void print()
+    {
+        Node node = head;
+        if(head == null) {
+            throw new Error("List is empty.");
+        }
+        while(node != null) {
+            System.out.println(node.value);
+            node = node.right;
+        }
     }
 
     public static void main(String[] args) {
         DLinkedList list = new DLinkedList();
-        list.addTail(1);
-        list.addTail(2);
-        list.addTail(3);
-        list.addTail(4);
-        list.addTail(5);
-        list.addPos(list.size-1, 10);
-        System.out.println(list.getElement(list.size)-1);
-    } // 0 1 2 10 3 4 5
 
-}
-
-class Node{
-    int value;
-    Node left;
-    Node right;
-
-    public Node(int value) {
-        this.value = value;
+        list.print();
     }
 }
+
