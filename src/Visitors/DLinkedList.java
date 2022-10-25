@@ -224,6 +224,48 @@ public class DLinkedList {
         }
         throw new Error("Index out of bounds.");
     }
+    /** Sorts the list in ascending order.
+     *  Bubble sort is used */
+    public void sortAscending() {
+        Node current, index;
+        int temp;
+
+        if(head == null) {
+            return;
+        }
+        else {
+            for(current = head; current.right != null; current = current.right) {
+                for(index = current.right; index != null; index = index.right) {
+                    if(current.value > index.value) {
+                        temp = current.value;
+                        current.value = index.value;
+                        index.value = temp;
+                    }
+                }
+            }
+        }
+    }
+    /** Sorts the list in descending order.
+     *  Bubble sort is used */
+    public void sortDescending() {
+        Node current, index;
+        int temp;
+
+        if(tail == null) {
+            return;
+        }
+        else {
+            for(current = tail; current.left != null; current = current.left) {
+                for(index = current.left; index != null; index = index.left) {
+                    if(current.value > index.value) {
+                        temp = current.value;
+                        current.value = index.value;
+                        index.value = temp;
+                    }
+                }
+            }
+        }
+    }
     /** Prints the list */
     public void print() {
         Node node = head;
@@ -245,6 +287,17 @@ public class DLinkedList {
 
         int i = 3;
 
+        list.addHead(5);
+        list.addHead(1);
+        list.addHead(9);
+        list.addHead(11);
+        list.addHead(3);
+        list.addHead(7);
+        list.addHead(10);
+
+        list.print();
+
+        list.sortDescending();
 
         list.print();
 
