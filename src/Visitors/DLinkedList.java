@@ -15,8 +15,7 @@ public class DLinkedList {
 
     public DLinkedList() {}
     /** Add element at the tail of the list */
-    public void addTail(int value)
-    {
+    public void addTail(int value) {
         size++;
         Node node = new Node(value);
         if(head == null ) {
@@ -32,8 +31,7 @@ public class DLinkedList {
         }
     }
     /** Add element at the head of the list */
-    public void addHead(int value)
-    {
+    public void addHead(int value) {
         size++;
         Node node = new Node(value);
         if(head == null) {
@@ -48,9 +46,9 @@ public class DLinkedList {
             head.left = null;
         }
     }
-    /** Add element at the specified position */
-    public void addPos(int index, int value)
-    {
+    /** Add element at the specified position.
+     *  Indexing starts at position 0. */
+    public void add(int index, int value) {
         Node node = new Node(value);
         if(head == null) {
             head = tail = node;
@@ -103,30 +101,28 @@ public class DLinkedList {
         throw new Error("Index out of bounds.");
     }
     /** Remove element at the tail of the list */
-    public void deleteTail()
-    {
+    public void removeTail() {
         tail.left.right = null;
         tail = tail.left;
         size--;
     }
     /** Remove element at the head of the list */
-    public void deleteHead()
-    {
+    public void removeHead() {
         head.right.left = null;
         head = head.right;
         size--;
     }
-    /** Remove element at the specified position */
-    public void deletePos(int index)
-    {
+    /** Remove element at the specified position.
+     *  Indexing starts at position 0. */
+    public void remove(int index) {
         Node node;
 
         if(index == 0) {
-            deleteHead();
+            removeHead();
             return;
         }
         else if(index == size-1){
-            deleteTail();
+            removeTail();
             return;
         }
 
@@ -160,9 +156,9 @@ public class DLinkedList {
         } while (node != null);
         throw new Error("Index out of bounds.");
     }
-    /** Replace element at the specified position */
-    public void replace(int index, int value)
-    {
+    /** Replace element at the specified position.
+     *  Indexing starts at position 0. */
+    public void replace(int index, int value) {
         Node node;
         if(head == null) {
             throw new Error("List is empty.");
@@ -196,9 +192,9 @@ public class DLinkedList {
         }
         throw new Error("Index out of bounds.");
     }
-    /** Get the element at the specified position */
-    public int getElement(int index)
-    {
+    /** Get the element at the specified position.
+     *  Indexing starts at position 0. */
+    public int get(int index) {
         Node node = head;
         if(head == null) {
             throw new Error("List is empty.");
@@ -229,14 +225,17 @@ public class DLinkedList {
         throw new Error("Index out of bounds.");
     }
     /** Prints the list */
-    public void print()
-    {
+    public void print() {
         Node node = head;
         if(head == null) {
             throw new Error("List is empty.");
         }
+        System.out.print(this + " = {");
         while(node != null) {
-            System.out.println(node.value);
+            if(node.right == null)
+                System.out.print(node.value + "}\n");
+            else
+                System.out.print(node.value + " ,");
             node = node.right;
         }
     }
@@ -244,7 +243,14 @@ public class DLinkedList {
     public static void main(String[] args) {
         DLinkedList list = new DLinkedList();
 
+        int i = 3;
+
+
         list.print();
+
+
+
+        //list.print();
     }
 }
 
